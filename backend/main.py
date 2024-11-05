@@ -46,7 +46,7 @@ async def ask_question(q: Question):
         response = requests.post(
             "https://api.mistral.ai/v1/chat/completions",  # Mistral API endpoint
             headers={
-                "Authorization": "Bearer qLuTzgn8FC9ePgXTDbCqxSw5ACftcGZy",  # Use the API key from environment variable
+                "Authorization": "Bearer {API_KEY}",  # Use the API key from environment variable
                 "Content-Type": "application/json",
             },
             json={
