@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mistral Q&A App</title>
+    <link rel="stylesheet" href="static/style.css"> <!-- Link to your CSS file if needed -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery for AJAX -->
+</head>
+<body>
+    <div class="container">
+        <h1>Mistral Q&A Application</h1>
+        <form id="qa-form">
+            <input type="text" id="question" placeholder="Ask your question..." required>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="answer" class="answer-box"></div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#qa-form').on('submit', function(e) {
+                e.preventDefault();
+                const question = $('#question').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/ask',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ question: question }),
+                    success: function(data) {
+                        $('#answer').html('<strong>Answer:</strong> ' + data.answer);
+                    },
+                    error: function(xhr) {
+                        $('#answer').html('<strong>Error:</strong> ' + xhr.responseJSON.detail);
+                    }
+                });
+            });
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: calc(100% - 30px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .answer-box {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+    </style>
+</body>
+</html>
